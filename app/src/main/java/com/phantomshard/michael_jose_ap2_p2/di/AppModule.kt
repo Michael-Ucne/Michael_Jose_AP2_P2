@@ -1,6 +1,9 @@
 package com.phantomshard.michael_jose_ap2_p2.di
 
 import com.phantomshard.michael_jose_ap2_p2.data.remote.SnakeApi
+import com.phantomshard.michael_jose_ap2_p2.data.remotedatasource.JugadorRemoteDataSource
+import com.phantomshard.michael_jose_ap2_p2.data.repository.JugadorRepositoryImpl
+import com.phantomshard.michael_jose_ap2_p2.domain.repository.JugadorRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -36,5 +39,11 @@ object AppModule {
     @Provides
     fun provideSnakeApi(retrofit: Retrofit): SnakeApi {
         return retrofit.create(SnakeApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideJugadorRepository(remoteDataSource: JugadorRemoteDataSource): JugadorRepository {
+        return JugadorRepositoryImpl(remoteDataSource)
     }
 }
