@@ -4,8 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.phantomshard.michael_jose_ap2_p2.presentation.detail.DetailBorrameScreen
-import com.phantomshard.michael_jose_ap2_p2.presentation.list.ListBorrameScreen
+import androidx.navigation.toRoute
+import com.phantomshard.michael_jose_ap2_p2.presentation.detail.JugadorDetailScreen
+import com.phantomshard.michael_jose_ap2_p2.presentation.list.JugadorListScreen
 
 @Composable
 fun NavHost(
@@ -13,17 +14,22 @@ fun NavHost(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.ListBorrame
+        startDestination = Screen.JugadorList
     ) {
-        composable<Screen.ListBorrame> {
-            ListBorrameScreen(
-                onNavigateToDetail = {
-                    navHostController.navigate(Screen.DetailBorrame(id = 0))
+        composable<Screen.JugadorList> {
+            JugadorListScreen(
+                onAddJugador = {
+                    navHostController.navigate(Screen.JugadorDetail(id = 0))
+                },
+                onEditJugador = { id ->
+                    navHostController.navigate(Screen.JugadorDetail(id = id))
                 }
             )
         }
-        composable<Screen.DetailBorrame> {
-            DetailBorrameScreen(
+        composable<Screen.JugadorDetail> { backStackEntry ->
+            val detailRoute: Screen.JugadorDetail = backStackEntry.toRoute()
+            JugadorDetailScreen(
+                id = detailRoute.id,
                 onBack = {
                     navHostController.navigateUp()
                 }
